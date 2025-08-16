@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portofolio – Wendy Virtus</title>
+  <meta name="description" content="Portofolio interaktif dengan tema biru modern & gelap elegan."/>
+  <style>
+    /* ====== Base & Tokens ====== */
+    :root{
+      --bg:#0b1222;          /* gelap elegan */
+      --bg-soft:#0f1a33;
+      --text:#eaf2ff;
+      --muted:#a9b7d1;
+      --card:#10182d;
+      --border:#1b2745;
+      --accent:#4cc9ff;      /* biru modern */
+      --accent-2:#3aa8ff;
+      --glow: 0 10px 40px rgba(76,201,255,.25);
+
+      --radius:16px;
+      --shadow: 0 12px 28px rgba(0,0,0,.35);
+      --transition: .35s cubic-bezier(.2,.8,.2,1);
+    }
+    :root.light{
+      --bg:#f7fbff;
+      --bg-soft:#eef6ff;
+      --text:#0a2540;
+      --muted:#475569;
+      --card:#ffffff;
+      --border:#dbe6ff;
+      --accent:#2563eb;
+      --accent-2:#1d4ed8;
+      --glow: 0 10px 40px rgba(37,99,235,.25);
+      --shadow: 0 10px 22px rgba(2,6,23,.1);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(76,201,255,.08), transparent 60%),
+                  radial-gradient(1000px 700px at -10% 10%, rgba(37,99,235,.08), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      accent-color:var(--accent);
+    }
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    section{padding:90px 20px}
+    .container{max-width:1100px;margin:0 auto}
+
+    /* ====== Animated Gradient Background ====== */
+    .moving-bg::before{
+      content:""; position:fixed; inset:-20%;
+      background: conic-gradient(from 180deg at 50% 50%, rgba(76,201,255,.18), rgba(37,99,235,.18), transparent 40%);
+      filter: blur(80px); opacity:.6; animation: spin 28s linear infinite;
+      pointer-events:none; z-index:-1;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ====== Navbar ====== */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .nav .wrap{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:14px 20px; max-width:1100px; margin:0 auto;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+    .logo{
+      width:36px;height:36px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      box-shadow: var(--glow);
+      display:grid;place-items:center;color:#001325;font-weight:900;
+    }
+    .menu{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+    .menu a{
+      padding:8px 10px;border-radius:10px;color:var(--muted);
+      transition:var(--transition); font-weight:600;
+    }
+    .menu a:hover,.menu a.active{color:var(--text); background:color-mix(in oklab,var(--accent) 18%, transparent)}
+    .actions{display:flex;gap:10px}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:12px;border:1px solid var(--border);
+      background:linear-gradient(180deg, color-mix(in oklab, var(--card) 90%, transparent), var(--card));
+      color:var(--text); box-shadow: var(--shadow); transition:var(--transition);
+    }
+    .btn:hover{transform:translateY(-2px); box-shadow:0 16px 30px rgba(0,0,0,.35)}
+    .btn.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#001325; box-shadow: var(--glow)}
+    .toggle{
+      width:44px;height:40px;border-radius:12px;border:1px solid var(--border);
+      display:grid;place-items:center;background:var(--card);cursor:pointer; transition:var(--transition)
+    }
+    .toggle:hover{transform:translateY(-2px)}
+
+    /* ====== Hero ====== */
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+    .hero h1{font-size:clamp(32px,6vw,56px);line-height:1.1;margin:.1em 0 .2em}
+    .tag{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:6px 10px;border-radius:999px;border:1px solid var(--border);
+      background: color-mix(in oklab,var(--card) 85%, transparent);
+      color:var(--muted); font-weight:600;
+    }
+    .lead{color:var(--muted); max-width:58ch}
+    .cta{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
+    .hero-card{
+      border:1px solid var(--border); background:linear-gradient(180deg, color-mix(in oklab,var(--card) 90%, transparent), var(--card));
+      border-radius:24px; padding:22px; box-shadow: var(--shadow); position:relative; overflow:hidden;
+    }
+    .orb{
+      position:absolute; width:220px;height:220px; border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(76,201,255,.5), transparent 60%);
+      right:-60px; top:-60px; filter: blur(10px);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float{50%{transform:translateY(8px) translateX(-6px)}}
+
+    .avatar{
+      width:120px;height:120px;border-radius:24px;
+      background: linear-gradient(135deg,#0b1222 30%, #0f1a33 70%);
+      border:1px solid var(--border); display:grid;place-items:center;
+      box-shadow: var(--shadow);
+    }
+
+    /* ====== Sections ====== */
+    .title{font-size:clamp(24px,4vw,36px); margin-bottom:6px}
+    .muted{color:var(--muted)}
+
+    .grid{
+      display:grid; gap:18px;
+      grid-template-columns:repeat(12,1fr);
+    }
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-12{grid-column:span 12}
+
+    /* ====== Cards ====== */
+    .card{
+      border:1px solid var(--border); border-radius:18px;
+      background:linear-gradient(180deg, color-mix(in oklab,var(--card) 90%, transparent), var(--card));
+      padding:18px; box-shadow: var(--shadow); transition: var(--transition);
+    }
+    .card:hover{transform:translateY(-4px)}
+
+    /* ====== Skills ====== */
+    .skill{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:10px 0}
+    .bar{flex:1;height:10px;border-radius:999px;background:color-mix(in oklab,var(--bg-soft) 70%, transparent); overflow:hidden}
+    .fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2)); box-shadow: var(--glow);}
+    .badge{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--muted);margin:4px 6px 0 0}
+
+    /* ====== Projects ====== */
+    .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .project{
+      position:relative; overflow:hidden; border-radius:18px; border:1px solid var(--border);
+      background:linear-gradient(180deg, color-mix(in oklab,var(--card) 88%, transparent), var(--card));
+      box-shadow: var(--shadow);
+    }
+    .project img{width:100%;height:180px;object-fit:cover;transition:.6s ease}
+    .project .info{padding:14px}
+    .project:hover img{transform:scale(1.06)}
+    .project .overlay{
+      position:absolute; inset:0; display:grid; place-items:center;
+      background:linear-gradient(180deg, transparent, rgba(0,0,0,.45));
+      opacity:0; transition:var(--transition);
+    }
+    .project:hover .overlay{opacity:1}
+    .project .overlay .btn{transform:translateY(6px)}
+    .project:hover .overlay .btn{transform:translateY(0)}
+
+    /* ====== Modal ====== */
+    .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(3,6,23,.6); backdrop-filter: blur(4px); z-index:60}
+    .modal.show{display:grid}
+    .modal-card{max-width:820px;width:min(92vw,820px); background:var(--card); border:1px solid var(--border); border-radius:22px; box-shadow: var(--shadow)}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
+    .modal-body{padding:16px}
+    .close{cursor:pointer;border:1px solid var(--border);background:var(--bg-soft);border-radius:12px;padding:6px 10px}
+
+    /* ====== Contact ====== */
+    .form{display:grid;gap:12px}
+    .input, .textarea{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
+      background: color-mix(in oklab,var(--card) 92%, transparent); color:var(--text);
+      outline:none; transition:var(--transition)
+    }
+    .input:focus,.textarea:focus{box-shadow: var(--glow); border-color: color-mix(in oklab, var(--accent) 45%, var(--border))}
+    .textarea{min-height:120px; resize:vertical}
+
+    /* ====== Utilities ====== */
+    .reveal{opacity:0; transform: translateY(14px); transition: var(--transition)}
+    .reveal.show{opacity:1; transform:none}
+    .center{text-align:center}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+
+    /* ====== Footer & Floating ====== */
+    footer{padding:40px 20px;border-top:1px solid var(--border); text-align:center; color:var(--muted)}
+    .top{
+      position:fixed; right:16px; bottom:16px; z-index:55;
+      width:44px;height:44px;border-radius:12px;border:1px solid var(--border);
+      display:grid;place-items:center;background:var(--card); cursor:pointer; opacity:0; pointer-events:none; transition:var(--transition)
+    }
+    .top.show{opacity:1; pointer-events:auto}
+
+    /* ====== Responsive ====== */
+    @media (max-width: 880px){
+      .hero{grid-template-columns:1fr; gap:20px}
+      .grid{grid-template-columns:repeat(6,1fr)}
+      .col-6{grid-column:span 6}
+      .col-4{grid-column:span 6}
+    }
+    /* Reduce Motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important}
+    }
+  </style>
+</head>
+<body class="moving-bg">
+  <!-- ====== NAVBAR ====== -->
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">W</div>
+        <span>Wendy Virtus • Portofolio</span>
+      </div>
+      <div class="menu" id="menu">
+        <a href="#home" class="active">Beranda</a>
+        <a href="#about">Tentang</a>
+        <a href="#skills">Keahlian</a>
+        <a href="#projects">Proyek</a>
+        <a href="#contact">Kontak</a>
+      </div>
+      <div class="actions">
+        <button class="btn primary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Hubungi</button>
+        <button class="toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section id="home">
+    <div class="container hero">
+      <div>
+        <span class="tag">💡 Selamat datang di Homepage</span>
+        <h1>My <span style="color:var(--accent)">Portfolio</span></h1>
+        <p class="lead">
+          <span id="typed"></span><span class="cursor">|</span>
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#projects">Lihat Proyek</a>
+          <a class="btn" href="#about">Tentang Saya</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="orb" aria-hidden="true"></div>
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div class="avatar">👤</div>
+          <div>
+            <div style="font-weight:800">Wendy Virtus</div>
+            <div class="muted">Mahasiswa • Purwokerto</div>
+            <div class="chips" style="margin-top:8px">
+              <span class="badge">IPS1 3.78</span>
+              <span class="badge">IPS2 3.83</span>
+              <span class="badge">Pemrograman Dasar</span>
+              <span class=""></span>
+            </div>
+          </div>
+        </div>
+        <div class="grid" style="margin-top:14px">
+          <div class="col-6 card">
+            <div class="muted">Proyek</div>
+            <div style="font-size:22px;font-weight:800">3</div>
+          </div>
+          <div class="col-6 card">
+            <div class="muted">Matkul Unggulan</div>
+            <div style="font-size:22px;font-weight:800">Matematika, Pemrograman Dasar, Aljabar dan Matriks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ABOUT ====== -->
+  <section id="about">
+    <div class="container">
+      <h2 class="title reveal center">Tentang Saya</h2>
+      <p class="muted reveal center" style="max-width:70ch;margin:0 auto 22px">
+        Saya fokus pada pengembangan, perancangan, dan juga desain web.
+        Saya percaya pembelajaran efektif lahir dari <strong>instruksi jelas</strong>, <strong>alat yang rapi</strong>, dan <strong>feedback cepat</strong>.
+      </p>
+
+      <div class="grid">
+        <div class="col-6">
+          <div class="card reveal">
+            <h3 style="margin:6px 0 8px">Kelebihan</h3>
+            <ul class="muted" style="margin:0 0 0 18px">
+              <li>Dokumentasi tugas dan praktikum yang rapi</li>
+              <li>Komunikasi yang to the point & ramah</li>
+              <li>Terbiasa membuat modul & demo singkat</li>
+              <li>Memiliki manajemen aktu yang baik</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card reveal">
+            <h3 style="margin:6px 0 8px">Teknologi</h3>
+            <div class="chips">
+              <span class="badge">HTML</span><span class="badge">CSS</span><span class="badge">C/C++</span>
+              <span class="badge">SQL</span><span class="badge">MySQL</span><span class="badge">Python</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== SKILLS ====== -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="title center reveal">Keahlian</h2>
+      <div class="grid">
+        <div class="col-6 card reveal">
+          <div class="skill"><b>HTML/CSS</b><span class="muted">90%</span></div>
+          <div class="bar"><div class="fill" data-fill="90"></div></div>
+
+          <div class="skill"><b>C/C++</b><span class="muted">82%</span></div>
+          <div class="bar"><div class="fill" data-fill="82"></div></div>
+
+          <div class="skill"><b>SQL / MySQL</b><span class="muted">80%</span></div>
+          <div class="bar"><div class="fill" data-fill="80"></div></div>
+        </div>
+
+        <div class="col-6 card reveal">
+          <div class="skill"><b>UI Prototyping</b><span class="muted">40%</span></div>
+          <div class="bar"><div class="fill" data-fill="40"></div></div>
+
+          <div class="skill"><b>Python</b><span class="muted">70%</span></div>
+          <div class="bar"><div class="fill" data-fill="70"></div></div>
+
+          <div class="skill"><b>Arduino / Digital</b><span class="muted">50%</span></div>
+          <div class="bar"><div class="fill" data-fill="50"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PROJECTS ====== -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="title center reveal">My Projects</h2>
+      <p class="muted center reveal" style="margin-bottom:16px">Klik kartu untuk detail.</p>
+      <div class="projects">
+        <!-- Proyek 1 -->
+        <article class="project reveal" data-title="Pencarian Tempat Makan" data-tags="Flask • Python • CSS" data-desc="Aplikasi berbasis web ini memungkinkan pengguna untuk menemukan tempat makan terdekat di sekitar Blater yang sesuai dengan keinginan dan kebutuhannya, dengan beberapa tempat makan yang sudah di inputkan oleh admin. ">
+          <img alt="Preview proyek 1" src="https://www.joglosemarbus.com/uploads/berita_image/IN_20250519143255_5.rumah-makan-jago-jowo.webp">
+          <div class="overlay"><button class="btn primary">Lihat Detail</button></div>
+          <div class="info">
+            <b>Pencarian Tempat Makan</b>
+            <div class="muted">Flask • Python • CSS</div>
+          </div>
+        </article>
+        <!-- Proyek 2 -->
+        <article class="project reveal" data-title="Web Porto" data-tags="HTML • CSS" data-desc="Website portofolio pribadi dengan tema biru elegan dan responsif. Menampilkan profil, keahlian, dan proyek dengan animasi menarik, mode gelap/terang, serta formulir kontak. Dibuat menggunakan HTML dan CSS murni.">
+          <img alt="Preview proyek 2" src="https://img.freepik.com/psd-gratuitas/modelo-de-design-de-site-de-interface-do-usuario_23-2149182791.jpg?semt=ais_hybrid&w=740&q=80">
+          <div class="overlay"><button class="btn primary">Lihat Detail</button></div>
+          <div class="info">
+            <b>Web Porto</b>
+            <div class="muted">HTML • CSS</div>
+          </div>
+        </article>
+        <!-- Proyek 3 -->
+        <article class="project reveal" data-title="Pencarian Buku & Novel" data-tags="HTML • CSS" data-desc="Aplikasi web interaktif yang memudahkan pengguna menemukan bacaan favorit mereka dengan cepat. Dengan desain modern berwarna gradasi biru yang segar, pengguna cukup mengetik judul atau nama penulis pada kolom pencarian, lalu koleksi buku populer akan langsung tampil rapi dalam bentuk kartu bergambar.">
+          <img alt="Preview proyek 3" src="https://media.istockphoto.com/id/1146545172/id/foto/tangan-menarik-buku-klasik-dari-rak-buku-perpustakaan.jpg?s=612x612&w=0&k=20&c=LUlgCShBEhAAK5m4_9E2OUz5UdN62mpz572vLdCmwHQ=">
+          <div class="overlay"><button class="btn primary">Lihat Detail</button></div>
+          <div class="info">
+            <b>Pencarian Buku & Novel</b>
+            <div class="muted">HTML • CSS</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT ====== -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="title center reveal">Kontak</h2>
+      <div class="grid">
+        <div class="col-6 card reveal">
+          <form class="form" id="contactForm">
+            <input class="input" type="text" name="nama" placeholder="Nama" required />
+            <input class="input" type="email" name="email" placeholder="Email" required />
+            <textarea class="textarea" name="pesan" placeholder="Pesan" required></textarea>
+            <button class="btn primary" type="submit">Kirim Pesan</button>
+          </form>
+        </div>
+        <div class="col-6 card reveal">
+          <h3 style="margin:6px 0 8px">Terhubung</h3>
+          <p class="muted" style="margin-bottom:10px">Apabila ada yang ingin ditanyakan hubungi kontak saya.</p>
+          <div class="chips">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MODAL ====== -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong id="mTitle">Judul</strong>
+        <button class="close" id="mClose" aria-label="Tutup">Tutup ✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="muted" id="mTags" style="margin-bottom:6px"></div>
+        <p id="mDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer>
+    © <span id="year"></span> Wendy Virtus
+  </footer>
+
+  <!-- ====== FLOATING BACK TO TOP ====== -->
+  <button class="top" id="toTop" aria-label="Kembali ke atas">↑</button>
+
+  <script>
+    // ===== Helpers =====
+    const $ = (q,ctx=document)=>ctx.querySelector(q);
+    const $$ = (q,ctx=document)=>[...ctx.querySelectorAll(q)];
+
+    // ===== Theme (Dark / Light) =====
+    const themeBtn = $('#themeToggle');
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light'){ root.classList.add('light'); themeBtn.textContent='🌙'; }
+    else{ themeBtn.textContent='🌙'; } // default dark
+    themeBtn.addEventListener('click', ()=>{
+      root.classList.toggle('light');
+      const isLight = root.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'light':'dark');
+      themeBtn.textContent = isLight ? '🌚' : '🌙';
+    });
+
+    // ===== Typed Hero Text =====
+    const typedTarget = $('#typed');
+    const lines = [
+      "Saya siap membantu praktikum jadi lebih jelas & menyenangkan.",
+      "Fokus pada web, basis data, dan jaringan.",
+      "Suka membangun tools kecil yang memudahkan asistensi."
+    ];
+    let li=0, ci=0, deleting=false;
+    function typeLoop(){
+      const line = lines[li];
+      typedTarget.textContent = line.slice(0,ci);
+      const speed = deleting ? 28 : 44;
+      if(!deleting && ci < line.length) ci++;
+      else if(!deleting && ci === line.length){ deleting = true; setTimeout(typeLoop,1000); return; }
+      else if(deleting && ci>0) ci--;
+      else{ deleting=false; li=(li+1)%lines.length; }
+      setTimeout(typeLoop, speed);
+    }
+    typeLoop();
+
+    // Cursor blink
+    (function blink(){
+      const c = document.querySelector('.cursor');
+      c.style.opacity = c.style.opacity === '0' ? '1' : '0';
+      setTimeout(blink,500);
+    })();
+
+    // ===== Reveal on scroll =====
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+      });
+    },{threshold:.16});
+    $$('.reveal, .card, .project').forEach(el=>io.observe(el));
+
+    // ===== Skill Bars =====
+    const fills = $$('.fill');
+    const skillIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const el = e.target;
+          const pct = el.dataset.fill || 0;
+          el.style.width = pct + '%';
+          el.style.transition = 'width 1.2s cubic-bezier(.2,.8,.2,1)';
+          skillIO.unobserve(el);
+        }
+      })
+    },{threshold:.4});
+    fills.forEach(el=>skillIO.observe(el));
+
+    // ===== Modal Projects =====
+    const modal = $('#modal'), mTitle=$('#mTitle'), mTags=$('#mTags'), mDesc=$('#mDesc'), mClose=$('#mClose');
+    $$('.project').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        mTitle.textContent = card.dataset.title || 'Proyek';
+        mTags.textContent = card.dataset.tags || '';
+        mDesc.textContent = card.dataset.desc || '';
+        modal.classList.add('show');
+      })
+    });
+    mClose.addEventListener('click', ()=>modal.classList.remove('show'));
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
+
+    // ===== Active menu on scroll =====
+    const links = $$('.menu a');
+    const secs = ['home','about','skills','projects','contact'].map(id=>$('#'+id));
+    function setActive(){
+      const pos = window.scrollY + 140;
+      let current = 'home';
+      secs.forEach(s=>{
+        if(s.offsetTop <= pos) current = s.id;
+      });
+      links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current));
+    }
+    document.addEventListener('scroll', setActive);
+
+    // ===== Back to Top =====
+    const toTop = $('#toTop');
+    window.addEventListener('scroll', ()=>{
+      toTop.classList.toggle('show', window.scrollY > 400);
+    });
+    toTop.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // ===== Contact Form (demo) =====
+    $('#contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      alert(`Terima kasih, ${data.nama}! Pesanmu sudah tercatat.\n(Ini demo — sambungkan ke backend untuk kirim email.)`);
+      e.target.reset();
+    });
+
+    // Year
+    $('#year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
